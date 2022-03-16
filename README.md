@@ -10,6 +10,6 @@ Username, password and also a random security code for every login.
 Posts:
 a)Everyone can see the posts.
 b)Only Maltepe University's students can create a post.
-c)Only Maltepe University's students can comment and like or unlike the post.
+c)Only Maltepe University's students can comment and like or dislike the post.
 
 
