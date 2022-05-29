@@ -8,5 +8,6 @@ Posts:
 a)Everyone can see the posts.
 b)Only users who logged can create a post.
 c)Everyone can comment and like or dislike the post.
+d)Every post has type, title and content.
 
 
