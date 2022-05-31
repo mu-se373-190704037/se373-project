@@ -2,17 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:se373_project/Pages/home.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:path/path.dart';
 import 'package:se373_project/Pages/post1.dart';
 
 
 class createpostPage extends StatefulWidget {
-  final String title;
-  const createpostPage(this.title) : assert(title != null);
+  final String type;
+  const createpostPage(this.type) : assert(type != null);
 
   @override
   State<createpostPage> createState() => _createpostPageState();
@@ -84,7 +81,7 @@ class _postolusturState extends State<postolustur> {
                     borderSide: BorderSide(color: Colors.purple),
                   ),
                   contentPadding: EdgeInsets.all(10.0),
-                  hintText: 'Title:',
+                  hintText: 'Label:',
                 ),
               ),
             ),
@@ -109,7 +106,7 @@ class _postolusturState extends State<postolustur> {
                     borderSide: BorderSide(color: Colors.purple),
                   ),
                   contentPadding: EdgeInsets.all(10.0),
-                  hintText: 'Labels:',
+                  hintText: 'Title:',
                 ),
               ),
             ),
@@ -118,12 +115,10 @@ class _postolusturState extends State<postolustur> {
             padding: const EdgeInsets.all(8.0),
             child: Scrollbar(
               controller: _scrollController,
-              isAlwaysShown: true,
               child: TextField(
                 controller: contentController,
                 style: TextStyle(color: Colors.white),
                 scrollController: _scrollController,
-                autofocus: true,
                 keyboardType: TextInputType.multiline,
                 maxLines: null,
                 autocorrect: true,
@@ -218,14 +213,15 @@ class _postolusturState extends State<postolustur> {
                 color: Colors.purple[800],
                 borderRadius: BorderRadius.circular(20),
               ),
+              // ignore: deprecated_member_use
               child: FlatButton(
                 onPressed: () async {
                   print(titleController.text);
                   print(labelController.text);
                   print(contentController.text);
                   Map<String, dynamic> postData = {
-                    'title': titleController.text,
-                    'label': labelController.text,
+                    'label': titleController.text,
+                    'title': labelController.text,
                     'content': contentController.text
                   };
                   await postsRef.doc(titleController.text).set(postData);

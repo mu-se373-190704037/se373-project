@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:se373_project/Pages/post.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:se373_project/Pages/post1.dart';
 
@@ -36,12 +36,16 @@ class anasayfa extends StatefulWidget {
 }
 
 class _anasayfaState extends State<anasayfa> {
-  final _firestore = FirebaseFirestore.instance;
+  final firestore = FirebaseFirestore.instance;
+  Future<String> gettitle() async {
+    final DocumentSnapshot posts =
+        await firestore.collection('posts').doc('Bilgilendirme').get();
+
+    return (posts.data() as dynamic)['title'];
+  }
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference postsRef = _firestore.collection('posts');
-    var erasmusref = postsRef.doc('2022 Erasmus');
     final screenSize = MediaQuery.of(context).size;
     return Container(
       width: screenSize.width,
@@ -66,23 +70,31 @@ class _anasayfaState extends State<anasayfa> {
                         width: 0.1,
                       ),
                     ),
+                    // ignore: deprecated_member_use
                     child: FlatButton(
-                      onPressed: ()  {
+                      onPressed: () {
                         Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => post1Page()),
-                              );
+                          context,
+                          MaterialPageRoute(builder: (context) => post1Page()),
+                        );
                       },
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: AutoSizeText(
-                          '2022 Erasmus Programı Hakkında',
-                          style: GoogleFonts.openSans(
-                              fontStyle: FontStyle.normal,
-                              color: Colors.white,
-                              fontSize: 18),
-                          maxLines: 2,
-                        ),
+                      child: FutureBuilder(
+                        future: gettitle(),
+                        builder: (context, AsyncSnapshot snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return CircularProgressIndicator();
+                          }
+                          return Align(
+                            alignment: Alignment.centerLeft,
+                            child: AutoSizeText(snapshot.data,
+                                style: GoogleFonts.openSans(
+                                  fontStyle: FontStyle.normal,
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                )),
+                          );
+                        },
                       ),
                     )),
                 Container(

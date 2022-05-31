@@ -6,9 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:like_button/like_button.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 class post1Page extends StatefulWidget {
   @override
@@ -20,7 +18,7 @@ class _post1PageState extends State<post1Page> {
 
   Future<String> gettitle() async {
     final DocumentSnapshot posts =
-        await firestore.collection('posts').doc('2022 Erasmus Hakkında').get();
+        await firestore.collection('posts').doc('Bilgilendirme').get();
 
     return (posts.data() as dynamic)['title'];
   }
@@ -42,10 +40,10 @@ class _post1PageState extends State<post1Page> {
             }
 
             return AutoSizeText(snapshot.data,
-              style: GoogleFonts.openSans(
-              fontStyle: FontStyle.normal,
-              color: Colors.white,
-            ));
+                style: GoogleFonts.openSans(
+                  fontStyle: FontStyle.normal,
+                  color: Colors.white,
+                ));
           },
         ),
         actions: <Widget>[
@@ -110,37 +108,38 @@ class _post1PageState extends State<post1Page> {
                     ConstrainedBox(
                       constraints: new BoxConstraints(maxHeight: 400),
                       child: new Scrollbar(
-                        child:ListView(
+                        child: ListView(
                           scrollDirection: Axis.vertical,
-                        reverse: false,
-                        children: snapshot.data!.docs.map((document) {
-                          return Align(
-                            alignment: Alignment.topLeft,
-                            child: Padding(
-                                padding: EdgeInsets.only(left: 5, top: 18),
-                                child: AutoSizeText(document['content'],
-                                    style: GoogleFonts.openSans(
-                                      fontStyle: FontStyle.normal,
-                                      color: Colors.white70,
-                                    ))),
-                          );
-                        }).toList(),
+                          reverse: false,
+                          children: snapshot.data!.docs.map((document) {
+                            return Align(
+                              alignment: Alignment.topLeft,
+                              child: Padding(
+                                  padding: EdgeInsets.only(left: 5, top: 18),
+                                  child: AutoSizeText(document['content'],
+                                      style: GoogleFonts.openSans(
+                                        fontStyle: FontStyle.normal,
+                                        color: Colors.white70,
+                                      ))),
+                            );
+                          }).toList(),
+                        ),
                       ),
-              ),
                     ),
                     Padding(
-
-                      padding: EdgeInsets.only(left: 10,top:9,bottom: 9),
-
+                      padding: EdgeInsets.only(left: 10, top: 9, bottom: 9),
                       child: Container(
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50)
+                            borderRadius: BorderRadius.circular(50)),
+                        child: AutoSizeText(
+                          'COMMENTS:',
+                          style: GoogleFonts.openSans(
+                              fontStyle: FontStyle.normal,
+                              color: Colors.white,
+                              fontSize: 15),
+                          maxLines: 2,
                         ),
-                        child:AutoSizeText('COMMENTS:',
-                          style: GoogleFonts.openSans(fontStyle: FontStyle.normal,color: Colors.white,fontSize: 15),
-                          maxLines: 2,),),
-
-
+                      ),
                     ),
                     Container(
                         height: 150,
@@ -150,48 +149,54 @@ class _post1PageState extends State<post1Page> {
                             border: Border.all(
                               color: Colors.white60,
                               width: 0.5,
-                            )
-                        ),
-                        child:ListView(
+                            )),
+                        child: ListView(
                           scrollDirection: Axis.vertical,
                           shrinkWrap: true,
                           children: <Widget>[
                             ConstrainedBox(
-                              constraints: new BoxConstraints(
-                                  maxHeight: 70),
-
+                              constraints: new BoxConstraints(maxHeight: 70),
                               child: Padding(
-                                padding: EdgeInsets.only(left: 10,top: 18),
-                                child: AutoSizeText('Bilgilendirme için teşekkürler.',
-                                  style: GoogleFonts.openSans(fontStyle: FontStyle.normal,color: Colors.white,fontSize: 15),
-                                  maxLines: 2,),
-
+                                padding: EdgeInsets.only(left: 10, top: 18),
+                                child: AutoSizeText(
+                                  'Bilgilendirme için teşekkürler.',
+                                  style: GoogleFonts.openSans(
+                                      fontStyle: FontStyle.normal,
+                                      color: Colors.white,
+                                      fontSize: 15),
+                                  maxLines: 2,
+                                ),
                               ),
                             ),
                             ConstrainedBox(
-                              constraints: new BoxConstraints(
-                                  maxHeight: 70),
-
+                              constraints: new BoxConstraints(maxHeight: 70),
                               child: Padding(
-                                padding: EdgeInsets.only(left: 10,top: 18),
-                                child: AutoSizeText('Ofis neredeydi, gelip yüzyüze konuşmak istiyordum da.',
-                                  style: GoogleFonts.openSans(fontStyle: FontStyle.normal,color: Colors.white,fontSize: 15),
-                                  maxLines: 2,),
+                                padding: EdgeInsets.only(left: 10, top: 18),
+                                child: AutoSizeText(
+                                  'Ofis neredeydi, gelip yüzyüze konuşmak istiyordum da.',
+                                  style: GoogleFonts.openSans(
+                                      fontStyle: FontStyle.normal,
+                                      color: Colors.white,
+                                      fontSize: 15),
+                                  maxLines: 2,
+                                ),
                               ),
                             ),
                           ],
-                        )
-                    ),
+                        )),
                     Container(
                       width: MediaQuery.of(context).size.width * 0.62,
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 10),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 5, horizontal: 10),
                         child: TextField(
-                          textAlignVertical:TextAlignVertical.top,
+                          textAlignVertical: TextAlignVertical.top,
                           maxLines: null,
                           minLines: null,
                           cursorColor: Colors.white,
-                          style: TextStyle(color: Colors.white,),
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
                           keyboardType: TextInputType.multiline,
                           //controller: commentController,
                           autocorrect: true,
@@ -199,7 +204,8 @@ class _post1PageState extends State<post1Page> {
                           decoration: InputDecoration(
                             labelStyle: TextStyle(color: Colors.white),
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(1.0)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(1.0)),
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(color: Colors.white60),
@@ -207,8 +213,8 @@ class _post1PageState extends State<post1Page> {
                             focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(color: Colors.purple),
                             ),
-
-                            contentPadding: EdgeInsets.only(top:10,bottom: 100, left: 20,right: 80),
+                            contentPadding: EdgeInsets.only(
+                                top: 10, bottom: 100, left: 20, right: 80),
                             labelText: 'Comment:',
                           ),
                         ),
@@ -219,12 +225,9 @@ class _post1PageState extends State<post1Page> {
                       child: IconButton(
                         icon: Icon(
                           Icons.send,
-
                           color: Colors.purple[800],
                         ),
-
-                        onPressed: ()  {
-
+                        onPressed: () {
                           /*print(commentController.text);
                           Map<String, dynamic> erasmusData = {
                             'comment': commentController.text
@@ -234,7 +237,6 @@ class _post1PageState extends State<post1Page> {
                             context,
                             MaterialPageRoute(builder: (context) => post1Page()),
                           );*/
-
                         },
                       ),
                     )

@@ -3,17 +3,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:se373_project/Pages/LoggedPage.dart';
-import 'package:se373_project/Pages/home.dart';
 import 'package:se373_project/Pages/password.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-
-
 import 'signIn.dart';
 
-
 class createAccountPage extends StatefulWidget {
-
   final String title;
   const createAccountPage(this.title) : assert(title != null);
   @override
@@ -21,24 +15,15 @@ class createAccountPage extends StatefulWidget {
 }
 
 class _createAccountPage extends State<createAccountPage> {
-
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
-
     return Scaffold(
-
       body: hesapekrani(),
     );
   }
-
 }
 
-
-
-
 class hesapekrani extends StatefulWidget {
-
   hesapekrani({Key? key}) : super(key: key);
 
   @override
@@ -46,8 +31,6 @@ class hesapekrani extends StatefulWidget {
 }
 
 class _hesapekraniState extends State<hesapekrani> {
-
-
   late String _email, _password;
   final auth = FirebaseAuth.instance;
   @override
@@ -67,9 +50,7 @@ class _hesapekraniState extends State<hesapekrani> {
               Padding(
                 padding: const EdgeInsets.only(top: 20.0),
                 child: Center(
-                  child: Container(
-
-                  ),
+                  child: Container(),
                 ),
               ),
               Padding(
@@ -79,9 +60,7 @@ class _hesapekraniState extends State<hesapekrani> {
                   keyboardType: TextInputType.emailAddress,
                   cursorColor: Colors.white,
                   style: TextStyle(color: Colors.white),
-
                   decoration: InputDecoration(
-
                     hintStyle: TextStyle(color: Colors.white60),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(4.0)),
@@ -100,12 +79,11 @@ class _hesapekraniState extends State<hesapekrani> {
                       color: Colors.white,
                     ),
                   ),
-                  onChanged: (value){
+                  onChanged: (value) {
                     setState(() {
-                      _email=value.trim();
+                      _email = value.trim();
                     });
                   },
-
                 ),
               ),
               Padding(
@@ -130,15 +108,14 @@ class _hesapekraniState extends State<hesapekrani> {
                     ),
                     contentPadding: EdgeInsets.all(10.0),
                     hintText: 'Enter your password',
-
                     prefixIcon: const Icon(
                       Icons.lock_rounded,
                       color: Colors.white,
                     ),
                   ),
-                  onChanged: (value){
+                  onChanged: (value) {
                     setState(() {
-                      _password=value.trim();
+                      _password = value.trim();
                     });
                   },
                 ),
@@ -149,27 +126,28 @@ class _hesapekraniState extends State<hesapekrani> {
                   height: 50,
                   width: 250,
                   decoration: BoxDecoration(
-
                     color: Colors.purple[800],
                     borderRadius: BorderRadius.circular(20),
                   ),
+                  // ignore: deprecated_member_use
                   child: FlatButton(
-
-
                     onPressed: () async {
-                      try{
-                        UserCredential userCredential=await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password);
-                      }
-                      on FirebaseAuthException catch(e){
-                        if(e.code=='user-not-found'){
+                      try {
+                        UserCredential userCredential = await FirebaseAuth
+                            .instance
+                            .signInWithEmailAndPassword(
+                                email: _email, password: _password);
+                      } on FirebaseAuthException catch (e) {
+                        if (e.code == 'user-not-found') {
                           print('No user found for that email.');
-                        }else if(e.code=='wrong-password'){
+                        } else if (e.code == 'wrong-password') {
                           print('Wrong password provided for that user.');
-                        }else if(e.code=='user-disabled'){
+                        } else if (e.code == 'user-disabled') {
                           print('User is Disabled');
                         }
                       }
-                      Navigator.push(context,
+                      Navigator.push(
+                        context,
                         MaterialPageRoute(builder: (_) => loggedScreen()),
                       );
                     },
@@ -182,76 +160,67 @@ class _hesapekraniState extends State<hesapekrani> {
               ),
               Padding(
                 padding: const EdgeInsets.all(10.0),
-                child:Container(
+                child: Container(
                   decoration: BoxDecoration(
                     color: Colors.black,
                     borderRadius: BorderRadius.circular(20),
                   ),
+                  // ignore: deprecated_member_use
                   child: FlatButton(
                     onPressed: () {
-                      Navigator.push(context,
+                      Navigator.push(
+                        context,
                         MaterialPageRoute(builder: (_) => passwordPage()),
-                            );
-
+                      );
                     },
                     child: Text(
                       'Forgot My Password',
-                      style: TextStyle(color: Colors.white, fontSize: 15,decoration: TextDecoration.underline),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                          decoration: TextDecoration.underline),
                     ),
                   ),
-
                 ),
               ),
               Padding(
-                  padding: const EdgeInsets.only(top: 30),
-                  child: Text(
-                    "Don't have an account?",
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      textBaseline: TextBaseline.alphabetic,
-                    ),
+                padding: const EdgeInsets.only(top: 30),
+                child: Text(
+                  "Don't have an account?",
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    textBaseline: TextBaseline.alphabetic,
                   ),
                 ),
-
-
+              ),
               Padding(
-              padding: const EdgeInsets.all(10.0),
-              child:Container(
-                decoration: BoxDecoration(
-                  color: Colors.purple[800],
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: FlatButton(
-                  onPressed: () {
-                    Navigator.push(context,
+                padding: const EdgeInsets.all(10.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.purple[800],
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  // ignore: deprecated_member_use
+                  child: FlatButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
                         MaterialPageRoute(builder: (_) => signIn()),
-
-                    );
-
-                  },
-                  child: Text(
-                    'Sign In',
-                    style: TextStyle(color: Colors.white, fontSize: 20),
+                      );
+                    },
+                    child: Text(
+                      'Sign In',
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
                   ),
                 ),
-
               ),
-          ),
-
-
-
-
-
-
             ],
           ),
         ),
       ),
-
     );
-
   }
 }
-

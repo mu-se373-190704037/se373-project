@@ -8,16 +8,12 @@ class searchPage extends StatefulWidget {
   State<searchPage> createState() => _searchPageState();
 }
 
-
 class _searchPageState extends State<searchPage> {
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
-    return Scaffold(
-        body: arama());
+    return Scaffold(body: arama());
   }
 }
-
 
 class arama extends StatefulWidget {
   const arama({Key? key}) : super(key: key);
@@ -40,11 +36,11 @@ class _aramaState extends State<arama> {
           children: [
             Container(
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 40,horizontal: 15),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 40, horizontal: 15),
                 child: TextField(
                   cursorColor: Colors.white,
                   style: TextStyle(color: Colors.white),
-
                   decoration: InputDecoration(
                     hintStyle: TextStyle(color: Colors.white60),
                     border: OutlineInputBorder(
@@ -70,8 +66,6 @@ class _aramaState extends State<arama> {
           ],
         ),
       ),
-
     );
   }
 }
-
