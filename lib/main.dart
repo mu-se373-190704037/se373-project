@@ -1,13 +1,16 @@
 import 'dart:async';
 
 import 'package:custom_navigator/custom_scaffold.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:se373_project/Pages/LoggedPage.dart';
 import 'package:se373_project/Pages/createAccount.dart';
 import 'package:se373_project/Pages/createPost.dart';
 import 'package:se373_project/Pages/home.dart';
 import 'package:se373_project/Pages/search.dart';
 import 'package:firebase_core/firebase_core.dart';
-
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:provider/provider.dart';
 // @dart=2.9
 
 Future main() async {
@@ -25,8 +28,9 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
+
 class _MyHomePageState extends State<MyHomePage> {
-  GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  //GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   int _pageIndex = 0;
   late PageController _pageController;
 

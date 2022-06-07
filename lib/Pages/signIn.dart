@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -11,6 +12,14 @@ class _signInState extends State<signIn> {
   Widget build(BuildContext context) {
     return uyeekrani();
   }
+}
+
+Future<void> userSetup(String displayName,String password) async {
+  CollectionReference users = FirebaseFirestore.instance.collection('Users');
+  FirebaseAuth auth = FirebaseAuth.instance;
+  String? uid = auth.currentUser?.uid.toString();
+  users.add({'email': displayName, 'uid': uid, 'password':password, 'comments':''});
+  return;
 }
 
 class uyeekrani extends StatefulWidget {
@@ -74,9 +83,10 @@ class _uyeekraniState extends State<uyeekrani> {
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: TextField(
+                child: new TextField(
                   cursorColor: Colors.white,
                   style: TextStyle(color: Colors.white),
+                  obscureText: true,
                   decoration: InputDecoration(
                     hintStyle: TextStyle(color: Colors.white60),
                     border: OutlineInputBorder(
@@ -120,6 +130,8 @@ class _uyeekraniState extends State<uyeekrani> {
                             .instance
                             .createUserWithEmailAndPassword(
                                 email: _email, password: _password);
+                        Navigator.of(context).pop();
+                        userSetup(_email,_password);
                       } on FirebaseAuthException catch (e) {
                         if (e.code == 'email-already-in-use') {
                           print('The account already exists for that email.');
@@ -127,7 +139,7 @@ class _uyeekraniState extends State<uyeekrani> {
                       } catch (e) {
                         print(e);
                       }
-                      Navigator.of(context).pop();
+
                     },
                     child: Text(
                       'Sign In',

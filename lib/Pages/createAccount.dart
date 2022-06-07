@@ -1,10 +1,11 @@
 import 'dart:ui';
 import 'dart:async';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:se373_project/Pages/LoggedPage.dart';
 import 'package:se373_project/Pages/password.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:se373_project/Pages/search.dart';
 import 'signIn.dart';
 
 class createAccountPage extends StatefulWidget {
@@ -14,14 +15,35 @@ class createAccountPage extends StatefulWidget {
   _createAccountPage createState() => _createAccountPage();
 }
 
+
+
 class _createAccountPage extends State<createAccountPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: hesapekrani(),
-    );
+      body: hesapekrani()
+      );
   }
 }
+void UpdateUser(dynamic element){
+  User? currentUser= FirebaseAuth.instance.currentUser;
+  if(currentUser!=null){
+    FirebaseFirestore.instance
+        .collection('Users')
+        .where('email', isEqualTo: currentUser.email)
+        .get()
+        .then((querySnapshot) => {
+      querySnapshot.docs.forEach((doc) => {
+        doc.reference.update({'posts': FieldValue.arrayUnion([element])})
+            .then((value) => print("User Updated"))
+            .catchError((error) => print("Failed to update user: $error"))
+      })
+    });
+  }
+
+
+}
+
 
 class hesapekrani extends StatefulWidget {
   hesapekrani({Key? key}) : super(key: key);
@@ -33,6 +55,19 @@ class hesapekrani extends StatefulWidget {
 class _hesapekraniState extends State<hesapekrani> {
   late String _email, _password;
   final auth = FirebaseAuth.instance;
+  @override
+  void initState() {
+    super.initState();
+    User? currentUser= FirebaseAuth.instance.currentUser; {
+      if (currentUser != null) {
+        WidgetsBinding.instance!.addPostFrameCallback((_) {
+          Navigator.push(context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) => loggedScreen()));});
+
+      }
+    }
+  }
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
@@ -133,10 +168,14 @@ class _hesapekraniState extends State<hesapekrani> {
                   child: FlatButton(
                     onPressed: () async {
                       try {
-                        UserCredential userCredential = await FirebaseAuth
+                        await FirebaseAuth
                             .instance
                             .signInWithEmailAndPassword(
                                 email: _email, password: _password);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => loggedScreen()),
+                        );
                       } on FirebaseAuthException catch (e) {
                         if (e.code == 'user-not-found') {
                           print('No user found for that email.');
@@ -146,10 +185,7 @@ class _hesapekraniState extends State<hesapekrani> {
                           print('User is Disabled');
                         }
                       }
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => loggedScreen()),
-                      );
+
                     },
                     child: Text(
                       'Login',

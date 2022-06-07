@@ -82,8 +82,8 @@ class _anasayfaState extends State<anasayfa> {
                         future: gettitle(),
                         builder: (context, AsyncSnapshot snapshot) {
                           if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return CircularProgressIndicator();
+                              ConnectionState.done&& !snapshot.hasData) {
+                            return SizedBox.shrink();
                           }
                           return Align(
                             alignment: Alignment.centerLeft,
