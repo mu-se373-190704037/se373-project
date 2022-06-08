@@ -1,5 +1,7 @@
 # se373-project
 Project for SE373 Mobil Programming 
+Dart files at the master branch.
+My class diagram in class diagram folder at main branch.
 Sign up:
 Every account has a email and password.
 Login:
